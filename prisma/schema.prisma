@@ -1,0 +1,110 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        Int       @id @default(autoincrement())
+  email     String    @unique
+  password  String
+  role      Role
+  firstName String
+  lastName  String
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  teachers  Teacher[]
+  parents   Parent[]
+  staffs    Staff[]
+}
+
+model Student {
+  id          Int          @id @default(autoincrement())
+  firstName   String
+  lastName    String
+  dateOfBirth DateTime
+  address     String
+  parent      Parent?      @relation(fields: [parentId], references: [id])
+  parentId    Int?
+  class       Class?       @relation(fields: [classId], references: [id])
+  classId     Int?
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+  Attendance  Attendance[]
+}
+
+model Class {
+  id        Int       @id @default(autoincrement())
+  name      String
+  teacher   Teacher   @relation(fields: [teacherId], references: [id])
+  teacherId Int
+  students  Student[]
+  schedule  String
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+}
+
+model Teacher {
+  id        Int      @id @default(autoincrement())
+  user      User     @relation(fields: [userId], references: [id])
+  userId    Int
+  classes   Class[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Parent {
+  id        Int       @id @default(autoincrement())
+  user      User      @relation(fields: [userId], references: [id])
+  userId    Int
+  students  Student[]
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+}
+
+model Staff {
+  id        Int      @id @default(autoincrement())
+  user      User     @relation(fields: [userId], references: [id])
+  userId    Int
+  position  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Attendance {
+  id        Int              @id @default(autoincrement())
+  date      DateTime
+  student   Student          @relation(fields: [studentId], references: [id])
+  studentId Int
+  status    AttendanceStatus
+  createdAt DateTime         @default(now())
+  updatedAt DateTime         @updatedAt
+}
+
+enum Role {
+  ADMIN
+  TEACHER
+  PARENT
+  STAFF
+}
+
+enum AttendanceStatus {
+  PRESENT
+  ABSENT
+  LATE
+}
+
+enum PaymentStatus {
+  PENDING
+  PAID
+  OVERDUE
+}
