@@ -17,14 +17,7 @@ export async function create_new_account(
 
   // wait 2 seconds
   await new Promise((resolve) => setTimeout(resolve, 2000));
-  return {
-    message: `
-    ${form_firstName} ${form_lastName} has been created successfully.
-    ${form_email} is the email associated with the account.
-    ${form_role} is the role assigned to the account.
-    ${form_password} is the password associated with the account.
-    `,
-  };
+
   // Validate form fields
   const validatedFields = CreateAccountFormSchema.safeParse({
     firstName: form_firstName,
@@ -42,4 +35,8 @@ export async function create_new_account(
   }
 
   // Call the provider or db to create a user...
+
+  return {
+    message: "user created successfuly",
+  };
 }

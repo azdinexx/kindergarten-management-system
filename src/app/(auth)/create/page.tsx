@@ -1,15 +1,13 @@
 'use client'
 import { create_new_account } from '@/actions/account'
-import { Loader } from '@/ui/loader'
 import SubmitBtn from '@/ui/SubmitBtn'
 import Link from 'next/link'
 import React, { useEffect } from 'react'
-import { useFormState, useFormStatus } from 'react-dom'
+import { useFormState } from 'react-dom'
 import { toast } from 'sonner'
 
 function LoginPage() {
     const [state, action] = useFormState(create_new_account, null)
-    const { pending } = useFormStatus()
     useEffect(() => {
         if (state?.message) {
             toast.success(state.message)
@@ -30,15 +28,33 @@ function LoginPage() {
 
                 <div className='py-2  grid grid-cols-3 lg:grid-cols-6 gap-2 mt-8'>
                     <label htmlFor="firstName">First Name</label>
-                    <input type="text" name='firstName' placeholder='your first name' className='col-span-2 bg-neutral-800 p-2 rounded-full pl-5 transition-all duration-150 ease-in-out' />
+                    <input type="text" name='firstName' required placeholder='your first name' className='col-span-2 bg-neutral-800 p-2 rounded-full pl-5 transition-all duration-150 ease-in-out' />
                     <label htmlFor="lastName">Last Name</label>
-                    <input type="text" name='lastName' placeholder='your last name' className='bg-neutral-800 p-2 rounded-full pl-5 transition-all duration-150 ease-in-out col-span-2' />
+                    <input type="text" name='lastName' required placeholder='your last name' className='bg-neutral-800 p-2 rounded-full pl-5 transition-all duration-150 ease-in-out col-span-2' />
                 </div>
+
+                {
+                    state?.errors?.firstName && (
+                        <p className='text-red-500 text-xs'>
+                            first name : {state?.errors?.firstName}
+                        </p>
+                    )
+                }
+                {
+                    state?.errors?.lastName && (
+                        <p className='text-red-500 text-xs'>
+                            last name : {state?.errors?.lastName}
+                        </p>
+                    )
+                }
+
 
                 <div className='py-2  grid grid-cols-3 lg:grid-cols-6'>
                     <label htmlFor="role">Role</label>
                     <div className='col-span-2 bg-neutral-800 px-5 rounded-full '>
-                        <select name="role" id="" className='w-full bg-neutral-800 p-2'>
+                        <select name="role" id="" className='w-full bg-neutral-800 p-2'
+                            defaultValue={'STAFF'}
+                        >
                             <option value="ADMIN">Admin</option>
                             <option value="TEACHER">Teacher</option>
                             <option value="STAFF">Staff</option>
@@ -46,14 +62,46 @@ function LoginPage() {
                         </select>
                     </div>
                 </div>
+                {
+                    state?.errors?.role && (
+                        <p className='text-red-500 text-xs'>
+                            last name : {state?.errors?.role}
+                        </p>
+                    )
+                }
                 <div className='py-2  grid grid-cols-3 lg:grid-cols-6'>
                     <label htmlFor="email">Email</label>
-                    <input type="email" name='email' placeholder='email' className='lg:col-span-5 col-span-2 bg-neutral-800 p-2 rounded-full pl-5 w-full transition-all duration-150 ease-in-out' />
+                    <input type="email" name='email' placeholder='email'
+                        required
+                        className='lg:col-span-5 col-span-2 bg-neutral-800 p-2 rounded-full pl-5 w-full transition-all duration-150 ease-in-out' />
                 </div>
+                {
+                    state?.errors?.email && (
+                        <ul className='text-red-500 text-xs flex flex-col list-disc list-inside'>
+                            {
+                                Object.values(state.errors.email).map((error, index) => (
+                                    <li key={index}>{error}</li>
+                                ))
+                            }
+                        </ul>
+                    )
+                }
                 <div className='py-2  grid grid-cols-3 lg:grid-cols-6'>
                     <label htmlFor="pwd">Password</label>
-                    <input type="password" name='pwd' placeholder='password' className='lg:col-span-5 col-span-2 bg-neutral-800 p-2 rounded-full pl-5 w-full transition-all duration-150 ease-in-out' />
+                    <input type="password" name='pwd' placeholder='password'
+                        required className='lg:col-span-5 col-span-2 bg-neutral-800 p-2 rounded-full pl-5 w-full transition-all duration-150 ease-in-out' />
                 </div>
+                {
+                    state?.errors?.password && (
+                        <ul className='text-red-500 text-xs flex flex-col list-disc list-inside'>
+                            {
+                                Object.values(state.errors.password).map((error, index) => (
+                                    <li key={index}>{error}</li>
+                                ))
+                            }
+                        </ul>
+                    )
+                }
 
                 <SubmitBtn>
                     Create
