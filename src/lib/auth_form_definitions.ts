@@ -1,12 +1,12 @@
-import { User } from "@prisma/client";
-import { z } from "zod";
-
-export const SignupFormSchema = z.object({
-  prenom: z
+import { Role, User } from "@prisma/client";
+import { array, z } from "zod";
+type t = User["role"];
+export const CreateAccountFormSchema = z.object({
+  firstName: z
     .string()
     .min(2, { message: "Name must be at least 2 characters long." })
     .trim(),
-  nom: z
+  lastName: z
     .string()
     .min(2, { message: "Name must be at least 2 characters long." })
     .trim(),
@@ -20,6 +20,7 @@ export const SignupFormSchema = z.object({
       message: "Contain at least one special character.",
     })
     .trim(),
+  role: z.enum(["ADMIN", "TEACHER", "PARENT", "STAFF"]),
 });
 
 export const LoginFormSchema = z.object({
@@ -27,23 +28,26 @@ export const LoginFormSchema = z.object({
   password: z.string().min(8, { message: "Be at least 8 characters long" }),
 });
 
-export type SignupFormState =
+export type CreateAccountFormState =
   | {
       errors?: {
         name?: string[];
         email?: string[];
         password?: string[];
+        role?: string[];
       };
       message?: string;
     }
-  | undefined;
+  | undefined
+  | null;
 
 export type LoginFormState =
   | {
       error?: string;
       message?: string;
     }
-  | undefined;
+  | undefined
+  | null;
 
 export type SessionPayload = {
   userId: User["id"];
