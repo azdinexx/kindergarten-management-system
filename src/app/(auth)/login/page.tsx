@@ -1,5 +1,6 @@
 'use client'
 import { login } from '@/actions/auth'
+import SubmitBtn from '@/ui/SubmitBtn'
 import Link from 'next/link'
 import React, { useEffect, useState } from 'react'
 import { useFormState } from 'react-dom'
@@ -43,27 +44,25 @@ function LoginPage() {
                     <label htmlFor="pwd">Password</label>
                     <input type="password" name="pwd" placeholder='password' className='bg-neutral-800 p-2 rounded-full pl-5 transition-all duration-150 ease-in-out' />
                 </div>
-                <button
-                    type='submit'
-                    className='p-2 bg-green-500/30 hover:bg-green-500/80 w-full mx-auto rounded-full transition-all duration-150 ease-in-out'>
+                <SubmitBtn>
                     continue
-                </button>
+                </SubmitBtn>
 
                 <p className='text-sm text-center mt-10 tracking-tight'>
                     don&apos;t have an account?{' '}
-                    <Link href={'/signup'} className='text-blue-500 inline tracking-normal'>
+                    <Link href={'/create'} className='text-blue-500 inline tracking-normal'>
                         Create one.
                     </Link>
                 </p>
                 <ul className='text-sm text-center mt-10 tracking-tight flex justify-center gap-2'>
                     <li>
-                        <Link href={'/signup'} className='text-green-500 inline tracking-normal'>
+                        <Link href={'/'} className='text-green-500 inline tracking-normal'>
                             Support
                         </Link>
                     </li>
                     <li>.</li>
                     <li>
-                        <Link href={'/signup'} className='text-green-500 inline tracking-normal'>
+                        <Link href={'/'} className='text-green-500 inline tracking-normal'>
                             Help
                         </Link>
                     </li>
