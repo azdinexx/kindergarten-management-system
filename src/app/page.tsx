@@ -1,4 +1,5 @@
 import { isLoggedIn } from "@/actions/session";
+import Logout from "@/ui/Logout";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
@@ -13,6 +14,7 @@ export default async function Home() {
   }
   return (
     <main>
+      <Logout />
       Dashboard
     </main>
   );

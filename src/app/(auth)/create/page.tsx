@@ -108,9 +108,9 @@ function LoginPage() {
                 </SubmitBtn >
 
                 <p className='text-sm text-center mt-10 tracking-tight'>
-                    don&apos;t have an account?{' '}
-                    <Link href={'/signup'} className='text-blue-500 inline tracking-normal'>
-                        Create one.
+                    you have an account?{' '}
+                    <Link href={'/login'} className='text-blue-500 inline tracking-normal'>
+                        Login here.
                     </Link>
                 </p>
                 <ul className='text-sm text-center mt-10 tracking-tight flex justify-center gap-2'>

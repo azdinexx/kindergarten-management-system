@@ -4,6 +4,7 @@ import SubmitBtn from '@/ui/SubmitBtn'
 import Link from 'next/link'
 import React, { useEffect, useState } from 'react'
 import { useFormState } from 'react-dom'
+import { toast } from 'sonner'
 
 function LoginPage() {
     const [state, action] = useFormState(login, null)
@@ -11,12 +12,7 @@ function LoginPage() {
 
     useEffect(() => {
         if (state?.error) {
-            setError(state?.error)
-            let timeoutid = setTimeout(() => {
-                setError(null)
-            }, 3000)
-            return () => clearTimeout(timeoutid)
-
+            toast.error(state.error)
         }
     }, [state])
     return (

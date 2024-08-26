@@ -1,3 +1,4 @@
+"use server";
 import {
   CreateAccountFormSchema,
   CreateAccountFormState,
@@ -35,7 +36,21 @@ export async function create_new_account(
   }
 
   // Call the provider or db to create a user...
-
+  const user = await db.user.create({
+    data: {
+      firstName: validatedFields.data.firstName,
+      lastName: validatedFields.data.lastName,
+      email: validatedFields.data.email,
+      password: validatedFields.data.password,
+      role: validatedFields.data.role,
+    },
+  });
+  console.log(user);
+  if (!user) {
+    return {
+      error: "Failed to create account",
+    };
+  }
   return {
     message: "user created successfuly",
   };
